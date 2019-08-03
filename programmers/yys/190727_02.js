@@ -1,6 +1,6 @@
 //자연수 뒤집어 배열로 만들기
 //https://programmers.co.kr/learn/courses/30/lessons/12932?language=javascript
-function turnInToArray(n) {
+function solution(n) {
   // 값을 넣을 배열
   const answer = [];
   // 인수를 조작하기 편하게 문자열로 변경
@@ -13,3 +13,5 @@ function turnInToArray(n) {
   }
   return answer;
 }
+
+// 입력된 배열 인수를 복사해서 두 개를 비교하는 게 좋다
