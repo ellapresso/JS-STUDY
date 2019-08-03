@@ -2,17 +2,18 @@
 //https://programmers.co.kr/learn/courses/30/lessons/12910
 
 function solution(arr, divisor) {
-  var answer = [];
+  let answer = [];
 
   arr.map(v => {
     if (v % divisor === 0) {
+      ㄷ;
       answer.push(v);
     }
   });
 
   if (answer.length === 0) return [-1];
 
-  var sortingArray = answer.sort(function(a, b) {
+  const sortingArray = answer.sort(function(a, b) {
     return a - b;
   });
 
