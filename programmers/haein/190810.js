@@ -25,35 +25,52 @@ console.log(solution1(2, 5))
 console.log(solution1(4, 10))
 console.log(solution1(-4, 2))
 
- const solution = (progresses, speeds) => {
-    const workCnt = progresses.length;
-    let curruntIndex = 0;
+// 기능개발
+/**
+ * 조건
+ * 작업의 개수(progresses, speeds배열의 길이)는 100개 이하입니다.
+ * n은 1000 이하인 자연수입니다
+ */
 
-    let breakPoint = '';
-    const workDays = [];
-    const tempObj = {}
+ const solution = (progresses, speeds) => {
+    if (progresses.length <= 100 && speeds.length <= 100 && progresses.length === speeds.length) {
+        throw console.error('매개변수가 조건을 충족하지 못합니다.')
+    }
+
+    const workCnt = progresses.length;
+    let index = 0;
+
+    let  deployDay= ''; // 배포일
+    const deploySchedule = {} // 배포일정
     
     // 잔업일 구하기
-    while (workCnt > curruntIndex) {
-        const restWork = 100 - progresses[curruntIndex]; // 잔업량
-        workDays[curruntIndex] =  Math.ceil(restWork / speeds[curruntIndex]) // 잔업일
-        const workDay =  workDays[curruntIndex]
+    while (workCnt > index) {
+        const restWork = 100 - progresses[index]; // 잔업량
+        const workDay =  Math.ceil(restWork / speeds[index]) // 잔업일
 
-        if(curruntIndex === 0){
-            breakPoint = workDay
-            tempObj[workDay] = [workDay]
+        if(index === 0){ // 첫번째 값일경우 무조건 deploySchedule에 등록
+            deployDay = workDay // 배포일 변경
+            deploySchedule[deployDay] = [workDay]
         }else {
-            if(breakPoint < workDay){
-                breakPoint = workDay
-                tempObj[workDay] = [workDay]
-            }else {
-                tempObj[breakPoint].push(workDay)
+            if(deployDay < workDay){ //배포일보다 작업일이 높을 경우
+                deployDay = workDay // 배포일 변경
+                deploySchedule[deployDay] = [workDay] // 배포일정에 추가
+            }else { //배포일보다 작업일이 낮을 경우
+                deploySchedule[deployDay] = [...deploySchedule[deployDay],workDay] // 배포일정에 추가
             }
         }
-        
-        curruntIndex ++
+
+        index ++
     }
-    const answer = Object.keys(tempObj).map((v) => tempObj[v].length )
+    console.log(deploySchedule) 
+
+    //{
+    //     배포일:[작업일,작업일]
+    //     7:[7,3],
+    //     9:[9,4,1,5]
+    // }
+
+    const answer = Object.keys(deploySchedule).map((v) => deploySchedule[v].length ) // 배포일별 작업 갯수 수하기
 
     return answer;
 }
