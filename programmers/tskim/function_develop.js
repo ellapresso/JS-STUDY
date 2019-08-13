@@ -1,4 +1,3 @@
-// 프로그래머스, 기능개발(https://programmers.co.kr/learn/courses/30/lessons/42586?language=javascript)
 // 제한 사항
 // 작업의 개수(progresses, speeds 배열의 길이)는 100개 이하입니다.
 // 작업 진도는 100 미만의 자연수입니다.
@@ -32,6 +31,8 @@ function solution(progresses, speeds) {
     }
     
     // progresses에 speeds 적용하기
+    // 100 이상의 progresses 개발이 있다면 어떻게 처리 할 것인가 ?
+
     // 앞 순서대로 progresses의 값이 100인지 확인 후 출력
     // 가장 앞 progresses가 100일 때 이어지는 progresses 확인
     while(progressesTemp.length)
@@ -40,7 +41,7 @@ function solution(progresses, speeds) {
         {
             progressesTemp[count] += speedsTemp[count];
             
-            if(progressesTemp[count] >= 100)
+            if((progressesTemp[count] >= 100) && (count == publishDailyCount))
             {
                 publishDailyCount++;
             }
