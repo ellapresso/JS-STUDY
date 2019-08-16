@@ -1,26 +1,56 @@
 function solution(skill, skill_trees) {
     const keys = skill.split('')
-    const len = keys.length;
+    console.log(keys)
     let cnt = 0;
-    skill_trees.map((item, index) => { //스킬트리 배열 돌림
-        const arr = []
-        for (let i = 0; i < len; i++) { //배열내에서 스킬 순서대로 찾음
-            const num = item.indexOf(keys[i])
-            if (num == -1) {
-                break;
-            } else {
-                arr.push(num) //찾은 순서대로 배열에 저장
+
+    skill_trees.forEach(e => {
+        const tree = e.split('');
+        const temp = []
+        tree.forEach((t, idx) => {
+            if (keys.indexOf(t) >= 0) {
+                temp.push(keys.indexOf(t));
             }
-        }
-        // 저장한 순서가 오름차순인지 체크
-        // 모든 스킬을 실행했는지 체크
-        if ((arr === arr.sort()) && (arr.length === len)) {
+        })
+        if (test(temp)) {
             cnt++
         }
-    }) //map
-
+    });
     return cnt;
 }
 
+function test(arr) {
+    const len = arr.length
+    for (let i = 0; i < len; i++) {
+        if (arr[i] !== i) {
+            return false
+        }
+    }
+    return true
+}
 
-console.log(solution('CBD', ['CABD', 'ACBD', 'DBAF', 'DBC']))
+////////////////////////////////////////////////
+function solution(skill, skill_trees) {
+    const keys = skill.split('')
+    let cnt = 0;
+    skill_trees.forEach(e => { // 역while사용하면 더 빨라짐
+        const tree = e.split('');
+        let temp = ''
+        tree.forEach((t) => {
+            if (keys.indexOf(t) >= 0) {
+                temp += (t);
+            }
+        })
+        if (skill.startsWith(temp)) {
+            cnt++
+        }
+    });
+    return cnt;
+}
+
+///////////////////////////////////////////////
+function solution(skill, skill_trees) {
+    const keys = skill.split('')
+    return skill_trees.reduce((c = 0, d) =>
+        skill.startsWith(d.split('').reduce((a, b) =>
+            (keys.indexOf(b) >= 0) ? a + b : a, '')) ? c + 1 : c, 0)
+}
