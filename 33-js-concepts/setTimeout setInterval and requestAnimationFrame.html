@@ -1,0 +1,660 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>setTimeout, setInterval and requestAnimationFrame</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="79486e97-7567-4639-97a0-65d046903b62" class="page sans"><header><h1 class="page-title">setTimeout, setInterval and requestAnimationFrame</h1></header><div class="page-body"><p id="e4d69e80-3bec-4a22-8fb8-05c09e91787c" class="">
+</p><p id="3374d599-a1bd-46d1-a5af-07813853f01c" class="">개발을 하다보면, 함수를 당장 실행하지 않고 정확히 몇 초의 딜레이 후에 실행하고 싶을 때가 있을 것입니다. 이것을 &quot;호출 스케쥴링하기(scheduling a call)&quot;라고 합니다.</p><p id="0d6ba886-a178-4964-98f3-125d3b28ad1a" class="">이것을 구현하기 위해 두가지 메소드가 존재합니다.</p><ul id="c0021756-5ac9-4288-a35a-80cd5e794483" class="bulleted-list"><li><code>setTimeout</code>은 일정 시간 간격 이후에 함수가 한번 실행됩니다.</li></ul><ul id="bb7554cc-49c8-463d-914d-01908ed81ff3" class="bulleted-list"><li><code>setInterval</code>은 일정 시간 간격으로 함수가 주기적으로 실행됩니다.</li></ul><p id="6464f6db-39d5-48d6-a24b-2ada829bb374" class="">위의 두 메소드들은 자바스크립트 스펙의 일부가 아닙니다. 하지만 대부분의 환경은 내부적인 스케쥴러를 갖고 있습니다. 그리고 이러한 메소드들을 제공합니다. 구체적으로는, Node.JS와 모든 브라우저에서 제공됩니다.</p><h1 id="289c9a01-bb2e-4034-b7e8-8b9dd76c625a" class=""><strong>setTimeout</strong></h1><p id="3814b4e0-f77f-4ef2-aecf-f463b00a3742" class="">문법:</p><pre id="cc957ecb-4478-4b74-a40d-f2f3fa1a4cab" class="code"><code>let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...);</code></pre><p id="f007d97a-f70a-401d-aa69-0c3497a5af61" class="">파라미터:<code>func|code</code>실행을 위한 함수나 문자열입니다. 주로, 함수를 받습니다. 히스토리적인 이유로, 코드의 문자열도 넘겨질수 있지만 권장되지는 않습니다.</p><p id="75ac1e5e-d0d5-46df-a73d-70a0154d85e7" class=""><code>delay</code>실행하기 전의 딜레이 입니다. ms단위로 이루어져 있습니다. 1000ms = 1s 입니다. 디폴트 값은 0이 들어있습니다.</p><p id="faf815ea-a62c-45c0-b19f-1171636e1042" class=""><code>arg1</code>, <code>arg2</code>...함수에 대한 인자(Arguments)들입니다. (IE9 미만의 버전에서는 지원되지 않습니다.)</p><p id="d66650ce-3406-4f17-9adb-ee5db313cbce" class="">예를 들어 1초 후에 <code>sayHi()</code>를 호출하는 코드를 작성해봅시다.</p><pre id="3a89d447-d02d-4a3c-a607-0d713058a9cf" class="code"><code>function sayHi() {
+  alert(&#x27;Hello&#x27;);  
+}
+
+setTimeout(sayHi, 1000);</code></pre><p id="03667f6e-e6b3-4f4a-a80b-e9aca6c82c7b" class="">인자를 줘봅시다.</p><pre id="3be83978-03bd-48f9-9792-9a70227b15a7" class="code"><code>function sayHi(phrase, who) {
+  alert( phrase + &#x27;, &#x27; + who);  
+}
+
+setTimeout(sayHi, 1000, &quot;Hello&quot;, &quot;John&quot;); // Hello, John</code></pre><p id="738d8d85-3264-4457-93e8-e01cb569b5b6" class="">만일 첫번째 인자에 문자열이 들어온다면, 자바스크립트는 그로부터 함수를 만들어낼 것입니다.</p><p id="de24414b-f52c-489e-a28a-9185ece3e073" class="">무슨 말이냐면 다음 코드가 동작한다는 것입니다.</p><pre id="6ec60160-cbb6-4637-b57d-8fc529e14faa" class="code"><code>setTimeout(&quot;alert(&#x27;Hello&#x27;)&quot;, 1000);</code></pre><p id="2a498a4b-1939-4dd8-8cf3-00c3492e94b6" class="">하지만 문자열을 사용하는 것은 권장되지 않습니다. 문자열 대신 함수를 사용해주세요. 다음과 같이요.</p><pre id="d99fca38-22f7-428d-816a-909c20d658bb" class="code"><code>setTimeout(() =&gt; alert(&#x27;Hello&#x27;), 1000);</code></pre><p id="c076ae6d-7dd4-404c-a7e1-0a002bc91500" class=""><strong>함수를 넘겨야 하지만, 실행하진 마세요.</strong> 가끔 풋내기 개발자들이 하는 실수는 함수 뒤에 <code>()</code> 괄호를 추가하는 것입니다.</p><pre id="bb15df93-4f70-473f-b542-8a47c65b91ba" class="code"><code>// Wrong!
+setTimeout(sayHi(), 1000);</code></pre><p id="a7d79657-1de0-4fe0-a958-ecdd52591c6a" class="">위의 코드는 작동하지 않습니다. 왜냐하면 <code>setTimeout</code>은 함수로의 참조를 받아올 것이라 예상했기 때문입니다. 여기 <code>sayHi()</code>는 함수를 실행시킵니다 그리고 실행의 결과가 <code>setTimeout</code>으로 전달됩니다. 우리가 코딩했던 것들을 살펴봤을 때, <code>sayHi()</code>의 결과는 <code>undefined</code> (아무것도 리턴하지 않는 함수)입니다. 그러므로 아무것도 스케쥴되지 않습니다.</p><h2 id="4e6671c2-0b92-41eb-b0e2-461685dbf182" class=""><strong>clearTimeout으로 취소하기</strong></h2><p id="e8a316b1-0bbc-46b9-9f2e-3cbbc526fa76" class=""><code>setTimeout</code>을 호출했을 때, 반환 값으로 우리가 실행을 취소하기 위해 사용할 수 있는 &quot;timer identifier&quot;인 <code>timerId</code>를 줍니다.</p><p id="fa0f48af-d8fd-4c0c-aec1-decf4f80279e" class="">취소하기 위한 문법은 다음과 같습니다.</p><pre id="09d9d52a-a08e-44e5-9ef3-32e4f465d263" class="code"><code>let timerId = setTimeout(...);
+clearTimeout(timerId);</code></pre><p id="aac05a6f-2d59-449b-a45f-cd3fe2944f79" class="">아래의 코드에서, 함수를 스케쥴링하고 그 후에 취소합니다(우리의 마음이 바뀌었습니다). 결과로, 아무것도 일어나지 않습니다.</p><pre id="66cb9e9b-c6ae-4c90-ad0a-de2224de4bcb" class="code"><code>let timerId = setTimeout(() =&gt; alert(&quot;never happens&quot;), 1000);
+alert(timerId); // timer identifier
+
+clearTimeout(timerId);
+alert(timerId); // same identifier (취소 이후에도 null이 되진 않습니다.)</code></pre><p id="5c6a7195-b3c0-4c88-8725-3355e22824f5" class="">우리가 <code>alert</code> 출력을 통해 알 수 있듯이, 브라우저 내부에서, timer identifier는 숫자입니다. 다른 환경에서는, timer identifier는 다른 것이 될 수 있습니다. 예를 들면, Node.JS는 추가적인 메소드와 함께 timer object를 리턴합니다.</p><p id="a8a8b616-93aa-4307-9679-fda1e297ee6f" class="">다시 한번 말하지만, 이러한 메소드에 대한 국제적인 스펙이 없습니다. 그래서 괜찮습니다.</p><p id="786e87fb-e089-47f2-8d8b-48e7de46c113" class="">브라우저들에 대해서는, HTML5 표준의 <a href="https://www.w3.org/TR/html5/webappapis.html#timers">timer section</a>에 기술된 것을 참조하세요.</p><h1 id="388f1fea-1f5f-42bd-bebe-a0162cf8bc50" class=""><strong>setInterval</strong></h1><p id="798c3691-db78-4350-aea5-4fc46a5b4fb9" class=""><code>setInterval</code> 메소드는 <code>setTimeout</code> 과 같은 문법을 갖고 있습니다.</p><pre id="6eef9dde-be08-4e1a-acff-ce8771a50de4" class="code"><code>let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...);</code></pre><p id="7e6b1c00-427d-43c2-9752-fae1f916e6ae" class="">모든 인자들은 같은 의미를 갖습니다. 하지만 <code>setTimeout</code>과는 다르게 함수를 한번만 실행하는 것이 아니라 부여된 시간 간격 이후로 주기적으로 실행합니다.</p><p id="51968217-5bb2-4eab-aebe-7649b49547d0" class="">더이상 호출하는 것을 중지하고 싶다면, 우리는 <code>clearInterval(timerId)</code>를 호출해야 합니다.</p><p id="f1f9e70b-3ee3-4c50-864d-34d222cfae75" class="">아래의 예제는 2초마다 메시지를 보여줍니다. 5초 후에, 출력이 중지됩니다.</p><pre id="33646bdd-5a1f-4113-b1c2-a08ae5483f3d" class="code"><code>// 2초마다 반복
+let timerId = setInterval(() =&gt; alert(&#x27;tick&#x27;), 2000);
+
+// 5초 후에 정지
+setTimeout(() =&gt; { clearInterval(timerId); alert(&#x27;stop&#x27;); }, 5000);</code></pre><p id="4a624ba7-053b-4624-b03c-e4294075146c" class=""><strong>Chrome/Opera/Safari에서는 Modal windows가 시간을 freeze 합니다.</strong>IE와 Firefox에서는 <code>alert/confirm/prompt</code>를 보여주면서 내부적인 타이머가 계속해서 &quot;ticking&quot;을 하지만 크롬, 오페라 사파리에서는 내부적인 타이머가 &quot;frozen&quot; 상태가 됩니다.</p><p id="4502f3d1-1583-4650-8c45-39c670786901" class="">그래서 만일 위의 코드를 돌리고 alert 윈도우를 일정 시간 동안 없애지 않았다면, 그 후에 Firefox/IE는 다음 <code>alert</code>가 즉시 보여집니다. (지난 호출에서 2초 경과 후에), 그리고 Chrome/Opera/Safari에서는 2초가 더 지난 후에 보여지게 될 것입니다. (타이머는 <code>alert</code>동안에 시간이 가지 않습니다.)</p><blockquote id="c8903d8a-2acc-495c-94a8-62c2c1a593d1" class="">역자 주 : 2019.04.23 현재일자 기준 테스트 결과 alert는 js 엔진의 스레드를 멈추지 않습니다. alert 동안에도 시간이 갑니다. 아무래도 과거의 지식인 것 같습니다.</blockquote><h2 id="39249341-65b6-486a-bba4-0fcaadecf649" class=""><strong>재귀적인 setTimeout</strong></h2><p id="e31ec0fd-b052-4685-ade6-847fcc90d4a8" class="">무언가 정기적으로 실행시키기 위해서는 두가지 방법이 있습니다.</p><p id="58c6bf02-ee8d-43df-b003-c31aefaaf437" class="">한가지가 <code>setInterval</code>이었고, 두번째가 재귀적인 <code>setTimeout</code>입니다. 구현은 다음과 같습니다.</p><pre id="4c2e49a4-87d8-4082-91b0-a791bc550e48" class="code"><code>let timerId = setTimeout(function tick() {
+  alert(&#x27;tick&#x27;);
+  timerId = setTimeout(tick, 2000); // (*)
+}, 2000);</code></pre><p id="85453025-84cc-41a3-9d96-8dbbaf965c87" class="">위의 <code>setTimeout</code>은 현재 실행중인 것이 끝날 때(<code>(*)</code>) 다음 호출을 바로 스케쥴합니다.</p><p id="4654f026-918d-40ac-9fcc-77ec6a25b0e6" class="">재귀적인 <code>setTimeout</code>은 <code>setInterval</code>보다 더욱 유연합니다. 이 방법에서는 다음 호출은 아마 때에 따라 다르게 스케쥴 될 것입니다. 현재 실행하던 것의 결과에 따라 달라지겠죠.</p><p id="be79ceaa-dd89-4271-b695-1f323dcaa3e2" class="">이를테면, 우리가 서버에 5초마다 데이터를 물어보는 요청을 보내는 서비스를 작성할 필요가 있는데, 서버에 요청이 너무 많을 때는 계속해서 요청을 보내기 보다는 우리가 주기를 10초, 20초, 40초 정도로 늘리는 것이 바람직합니다.</p><p id="7823a820-0a90-40eb-9aea-e2cf78abae32" class="">다음은 의사코드입니다.</p><pre id="b68ec4d8-62a5-47fc-b0dc-c36800c8ba4d" class="code"><code>let delay = 5000;
+
+let timerId = setTimeout(function request() {
+  ...요청 전송...
+
+  if(서버 과부하 때문에 요청이 실패한다면...) {
+    // 다음 실행까지 인터벌을 좀 늘리자..
+    delay *= 2;
+  }
+
+  timerId = setTimeout(request, delay);
+
+}, delay);</code></pre><p id="a626786a-3303-4d86-a2d5-0a99a2ffe20a" class="">그리고 주기적으로 CPU 사용량이 많은 작업(CPU-hungry tasks)이 있다면, 실행에 걸린 시간을 측정하고 다음 호출을 더 일찍할지 더 늦게 할지 계획할 수 있습니다.</p><p id="8ca3f9c4-5d35-42ef-99a3-7dc65b6f7658" class=""><strong>재귀적인 </strong><code><strong>setTimeout</strong></code><strong>은 </strong><code><strong>setInterval</strong></code><strong>이 보장하지 못하는 실행간 딜레이를 보장할 수 있습니다.</strong></p><p id="51be0191-41a8-4d3e-a79e-353c534b6407" class="">밑의 두개의 코드를 비교해봅시다. 첫번째 예제에서는 <code>setInterval</code>을 사용합니다.</p><pre id="97068c66-b2ba-4d05-bd0a-b3d26583b08a" class="code"><code>let i = 1;
+setInterval(function () {
+  func(i);
+}, 100);</code></pre><p id="649a4a58-e8f2-4617-9211-86a68c7c600e" class="">두번째 예제는 재귀적인 <code>setTimeout</code>을 사용합니다.</p><pre id="7e520aed-4832-421e-bac8-5e2af26c16dd" class="code"><code>let i = 1;
+setTimeout(function run() {
+  func(i);
+  setTimeout(run, 100);
+}, 100);</code></pre><p id="6855e179-869f-42e0-9f71-6716beec866a" class=""><code>setInterval</code>에서는 내부적인 스케쥴러가 <code>func(i)</code>를 매 100ms마다 실행할 것입니다.</p><figure id="cd2e1c24-f588-42e4-8a2a-4dd285732bae" class="image"><a href="https://images.velog.io/post-images/jakeseo_me/6886d470-6634-11e9-9a37-b7ea258b394d/setinterval-interval.png"><img src="https://images.velog.io/post-images/jakeseo_me/6886d470-6634-11e9-9a37-b7ea258b394d/setinterval-interval.png"/></a></figure><p id="7c7977c3-cb50-4b5a-9c93-c48e77e06274" class="">눈치 채셨나요?</p><p id="0f1d3dc6-1f08-49a9-9cd7-426f0bd1bae3" class=""><code><strong>func</strong></code><strong> 호출 사이의 진짜 딜레이는 코드에 기재된 것 보다 적습니다.</strong></p><p id="ceba9ff7-6a10-4571-a157-dfd682b4257c" class="">그게 일반적인 경우입니다. 왜냐하면 <code>func</code>의 실행에 의해 소비되는 일부의 interval 때문입니다.</p><p id="399b6b4f-7b93-488e-8ea9-5a56de28beeb" class=""><code>func</code>가 우리가 예상한것보다 더 길게 실행되어 100ms의 시간보다 더 걸리는 것도 가능합니다.</p><p id="4c54c195-70d7-4d45-bdda-ec2356ee16a3" class="">이 경우에는 엔진은 <code>func</code>의 실행 완료까지 기다리고 스케쥴러를 체크하고 시간이 됐다면, 다시 <em>즉시</em> 실행할 것입니다.</p><p id="b52fb7f0-357b-4806-a9c4-5389630a0cfd" class="">극단적인 경우에(In the edge case), 만일 함수가 항상 <code>delay</code>ms 보다 더 길게 실행된다면, 잠깐의 정지도 하지 않고 즉시 실행될 것입니다.</p><p id="1f2e2adb-d449-4e7d-9ea7-f6cd134d8877" class="">그리고 아래에는 재귀적인 <code>setTimeout</code>의 그림입니다.</p><figure id="72a36cca-a7e8-45c5-905a-a8bb153f0942" class="image"><a href="https://images.velog.io/post-images/jakeseo_me/2bd8d040-6635-11e9-91cd-571f298b0040/settimeout-interval.png"><img src="https://images.velog.io/post-images/jakeseo_me/2bd8d040-6635-11e9-91cd-571f298b0040/settimeout-interval.png"/></a></figure><p id="86119247-1618-4488-bb4b-f783c0190449" class=""><strong>재귀적인 </strong><code><strong>setTimeout</strong></code><strong>은 고정된 딜레이를 보장합니다.</strong></p><p id="927b91b5-0f0e-4db3-a66f-9c502f6836ed" class="">새로운 호출이 이전 호출의 끝에 계획되기 때문입니다.</p><blockquote id="8bbbfb37-47e1-4fdf-bc87-498812e23a18" class="">Garbage Collection함수가 setInterval 혹은 setTimeout에 넘겨졌을 때, 그것을 가리키는 내부적인 레퍼런스가 만들어지고 스케쥴러에 저장됩니다. 이것은 만일, 함수에 별다른 참조가 없더라도 함수가 garbage collect되는 것을 막아줍니다.// 스케쥴러 호출 시까지, 함수는 메모리에 머무릅니다. 
+setTimeout(function() {...}, 100);setInterval의 경우에는, clearInterval이 호출될 때까지 함수는 메모리에 머뭅니다.side-effect도 있습니다. 한 함수가 lexical 환경 바깥을 참조합니다. 그래서, 이 함수가 살아있는 동안, 바깥의 변수들도 마찬가지로 살아있습니다. 변수들은 아마 함수 자체보다 더 많은 메모리를 소비할 것입니다. 그래서 우리가 스케쥴된 함수가 더이상 필요하지 않을 때는 아주 작은 함수라 할지라도, cancel 시켜주는 것이 더 좋습니다.</blockquote><h2 id="57f6733a-ab45-4bc2-a79f-3aeab418c57f" class=""><strong>setTimeout(..., 0)</strong></h2><p id="55b87b2f-fd40-4906-b739-0fd934df4c59" class=""><code>setTimeout(func, 0)</code> 또는 <code>setTimeout(func)</code> 이러한 특별한 용례가 있습니다.</p><p id="ca859af6-e7b2-4d27-a7aa-c38d9a08a505" class="">앞의 코드는 <code>func</code>의 실행을 가능한 빠르게 스케쥴합니다. 하지만 스케쥴러는 현재의 코드가 끝난 뒤에 호출할 것입니다.</p><p id="16d53a2b-6fbb-4571-b0d9-d32eb9542e0e" class="">그래서 함수가 현재의 코드가 끝난 직후에 실행하도록 스케쥴되는 것입니다. 다른 말로는, <em>비동기적</em>으로 실행됩니다.</p><p id="fd8894ca-d5ba-4c11-ab58-ef4a98739c0e" class="">예를 들면, 다음 코드는 &quot;Hello&quot;를 출력한 후 즉시 &quot;World&quot;를 출력합니다.</p><pre id="458a551c-0b2e-432a-a26e-49058779546b" class="code"><code>setTimeout(() =&gt; alert(&quot;World&quot;));
+
+alert(&quot;Hello&quot;);</code></pre><p id="f8bce8fa-2a19-4493-869e-69f4f88bcbd2" class="">첫번째 줄은 달력에 0초 후에 함수를 호출하라는 명령을 넣습니다. 하지만 스케쥴러는 현재의 코드가 끝난 뒤에만 달력을 확인합니다. 그래서 <code>Hello</code>가 첫번째고 <code>World</code>가 뒤따라 나옵니다.</p><h2 id="34869227-d042-4e79-bade-0ca35b1be175" class=""><strong>CPU 소비가 많은 작업을 Splitting 하기</strong></h2><p id="d987200c-4a54-49da-a74f-d91ff4a133fd" class=""><code>setTimeout</code>을 이용해 CPU 사용량이 많은 작업들을 나누는 트릭이 있습니다.</p><p id="91e6214c-b44b-4ff7-8120-1853233823e7" class="">예를 들면, syntax-highlighting(코드를 컬러링하는 작업)을 하는 스크립트는 CPU를 꽤 많이 잡아먹습니다. 코드에 하이라이팅을 하기 위해, 엔진은 코드를 분석하고 많은 색칠된 엘리먼트들을 만들어내고 문서(document)에 추가합니다. 큰 텍스트의 경우에는 정말 많은 시간이 소요됩니다. 심지어 브라우저를 잠시 먹통이 되게 만들기도 합니다.</p><p id="2705c6fc-965e-4a83-b605-2827ad270a05" class="">그래서 우리는 <code>setTimeout(..., 0)</code>을 이용해 긴 텍스트를 조각조각 나눌 수 있습니다. 처음 100줄 이후 또 다른 100줄 이러한 형식으로요.</p><p id="c2355d1c-0c7d-40f5-908c-418e3b5e5cf9" class="">명쾌하게 이해하기 위해, 간단한 예제를 갖고 고려해봅시다. 우리는 <code>1</code>부터 <code>1000000000</code>까지 숫자를 세는 함수를 갖고있습니다.</p><p id="51621339-7f92-4b04-bdb4-65fe47709ff7" class="">만일 이 함수를 실행한다면, CPU는 잠시 멈출 것입니다. 서버사이드에서 이용하는 자바스크립트의 경우, 이런 일은 상당히 크게 느껴집니다. 그리고 만일 브라우저에서 실행시키고 다른 버튼을 클릭하려 한다면, 모든 자바스크립트가 일시정지하는 현상을 볼 수 있을 것입니다. 작업이 끝날 때까지 어떠한 액션도 작동하지 않을 것입니다.</p><pre id="aae1f0c3-ba24-4212-abec-c29f6f1b2e26" class="code"><code>let i = 0;
+
+let start = Date.now();
+
+function count() {
+
+  // 무거운 작업을 하자
+  for (let j = 0; j &lt; 1e9; j++) {
+    i++;
+  }
+
+  alert(&quot;Done in &quot; + (Date.now() - start) + &#x27;ms&#x27;);
+}
+
+count();</code></pre><p id="95f641b0-b139-4c3c-b696-882d6f8b471d" class="">브라우저는 &quot;스크립트가 너무 깁니다.&quot;라는 경고 메시지를 보여줄 수도 있지만 그러지 않을 것입니다. 왜냐하면 숫자가 너무 크진 않으니까요.</p><p id="1988ec94-04b7-44d9-904c-f7e8fca51f52" class="">중첩된 <code>setTimeout</code>을 이용하여 작업을 Split 해봅시다.</p><pre id="f4c037bb-a367-4b2c-8e8b-cc15e02906d8" class="code"><code>let i = 0;
+let start = Date.now();
+
+function count() {
+  // 약간의 무거운 작업을 해봅시다. (*)
+  do {
+    i++;
+  } while (i % 1e6 != 0);
+
+  if (i == 1e9) {
+    alert(&quot;Done in &quot; + (Date.now() - start) + &#x27;ms&#x27;);
+  } else {
+    setTimeout(count); // 호출을 스케쥴링합니다. (**) 
+  }
+}
+
+count();</code></pre><p id="377d9e59-ec1e-470d-b3a0-a29e0c18c0cb" class="">이제 &quot;counting&quot; 작업을 하는 동안, 브라우저 UI가 완전히 동작합니다.</p><p id="d92cfbed-5321-438e-9eae-a65f1691bf1b" class="">우리는 작업의 부분 수행합니다.</p><ol id="27d710ff-2e69-43fd-8e7a-020570a52b37" class="numbered-list" start="1"><li>첫번째 실행에서: <code>i=1...1000000</code></li></ol><ol id="0a785741-f498-468c-9b95-f76afaec912b" class="numbered-list" start="2"><li>두번째 실행에서: <code>i=1000001..2000000</code>.</li></ol><ol id="bb676747-1b00-47b1-a940-36ee10a90fa4" class="numbered-list" start="3"><li>그리고 계속... <code>while</code>에서 <code>i</code>가 <code>1000000</code>에 의해 나눠지는지 검사합니다.</li></ol><p id="41bb7652-5640-4950-a4b9-8a65a45bc07e" class="">그 후에 아직 작업이 완료되지 않았다면, 다음 호출은 <code>(**)</code>에서 스케쥴됩니다.</p><p id="ae496001-c137-4dba-b905-0a1c74152e58" class=""><code>count</code> 실행 중 일시정지는 자바스크립트 엔진에게 숨 쉬며 다른 작업을 할 시간을 줍니다. 다른 사용자의 액션에 반응할 시간을요.</p><p id="35d46f1f-8b0e-4f1d-9acc-848ed33fa4b0" class="">주목해야 할 것은 작업을 <code>setTimeout</code>으로 나누든 나누지 않든, 속도는 거의 비슷하다는 것입니다. 전체 카운팅 타임에는 큰 차이가 없다는 것입니다.</p><p id="cdcdd025-b394-4397-85db-94e9c2afd73a" class="">이 개념들에 더 익숙해지기 위해, 소스코드를 개선해봅시다.</p><p id="0b251942-8f65-41a0-b008-2f4bca601a15" class="">우리는 스케쥴링을 <code>count()</code>의 시작 부분으로 옮길 것입니다.</p><pre id="6e5ad5b1-c5f3-41da-b565-ccc48d319ee0" class="code"><code>let i = 0;
+let start = Date.now();
+
+function count() {
+  // move the scheduling at the beginning
+  if ( i &lt; 1e9 - 1e6) {
+    setTimeout(count);  
+  }
+
+  do {
+    i++;
+  } while (i % 1e6 != 0);
+
+  if ( i == 1e9) {
+    alert(&quot;Done in &quot; + (Date.now() - start) + &#x27;ms&#x27;);
+  }
+
+}
+
+count();</code></pre><p id="7749d6e8-ceb3-4148-87f8-082c0f77a674" class="">이제, 우리는 <code>count()</code> 부터 시작하고 우리가 <code>count()</code>를 더 할 필요가 있다는 것을 압니다. 우리는 작업을 하기 전에 즉시 스케쥴을 걸어놓습니다.</p><p id="d80db6e0-4a26-446f-abd0-dcf3caecbeb7" class="">실행해보면, 이게 훨씬 적은 시간이 든다는 것을 알게될 것입니다.</p><p id="6609fee6-480e-402e-82d0-f5cd32583650" class="">
+</p><hr id="9db0884c-eab9-483d-ac6a-da8f0118eb3c"/><h2 id="503777f9-ac24-47dd-8591-68289e803c5a" class="">requestAnimationFrame() 개념 정리하기</h2><p id="9211b602-9528-44f4-a66d-6b25ba801c08" class="">
+</p><p id="76747b9a-3bcd-4f47-a1db-bb501b6fcd20" class="">부드러운 인터렉션을 제공하기 위한 첫걸음.</p><p id="736f5e3c-2598-4fda-9944-ed3e2ca6292b" class="">사용자들이 서비스를 선택할 때에는 여러 가지 기준이 있습니다. 그중에 하나는 부드러운 인터렉션 입니다. 오늘날의 기기들은 그러한 시각적인 효과를 위해 초당 60번 화면을 다시 그립니다. 그러므로 우리는 이 60개의 화면(프레임) 안에서 시각적인 효과를 표현해야 합니다.</p><figure id="64da1efa-8dba-4452-b6f1-bed2929b0036" class="image"><a href="https://fullest-sway.me/blog/2019/01/28/requestAnimationFrame/final-fps.gif"><img src="https://fullest-sway.me/blog/2019/01/28/requestAnimationFrame/final-fps.gif"/></a></figure><p id="8101f30d-9247-48c8-be80-95d500fabb7d" class=""><em>출처 : </em><a href="https://dribbble.com/shots/1945400-FPS-frames-per-second"><em>https://dribbble.com/shots/1945400-FPS-frames-per-second</em></a></p><p id="8463c393-1b11-4057-b9a8-723b946f02be" class="">사용자들은 이 프레임 중에 하나라도 놓치면 그것을 쉽게 알아챕니다. 초당 60개의 프레임을 렌더링하려면 1개의 단일 프레임은 16ms(1,000ms/60frame)안에 수행해야 합니다. 즉, 초당 60개의 프레임을 부드러운 속도로 보여주기 위해서는 약 16ms 미만으로 프레임을 유지하는 것이 좋습니다.</p><hr id="e0011257-5e7a-4496-be53-babb7c049fe8"/><p id="9950564a-3e0b-45dc-aa55-1936c65fb33a" class="">브라우저가 화면에 무언가를 그리기까지는 여러 단계가 존재합니다.</p><figure id="4e4e7c10-ee6d-45c6-8a5d-6c4362d804db" class="image"><a href="https://fullest-sway.me/blog/2019/01/28/requestAnimationFrame/frame-full.jpg"><img src="https://fullest-sway.me/blog/2019/01/28/requestAnimationFrame/frame-full.jpg"/></a></figure><p id="732150d9-c5ad-419e-9a5d-4c981eeb68d5" class=""><em>출처 : </em><a href="https://developers.google.com/web/fundamentals/performance/rendering/?hl=ko"><em>https://developers.google.com/web/fundamentals/performance/rendering/?hl=ko</em></a></p><p id="f4a59798-e792-4802-9df6-d95c2f7e87fa" class="">애니메이션 및 기타 작업들을 수행하는 Javascript, CSS 규칙을 어떤 요소에 적용할지 계산하는 프로세스인 Style, 브라우저가 요소에 어떤 규칙을 적용할지 알게 되면 화면에서 얼마의 공간을 차지하고 어디에 배치되는지 계산하는 프로세스인 Layout(reflow), 픽셀을 채우는 프로세스인 Paint(redraw), 이전의 작업들이 개별적인 레이어에서 진행되고 이를 합치는 프로세스인 Composite 로 진행됩니다.</p><p id="99bdea0f-8090-463c-a5f0-cd9c72918502" class="">때에 따라 다르지만 기본적으로 한번에 그림을 그리기 위해서는 위와 같은 랜더링 파이프라인을 호출하게 됩니다. 우리는 흔히 애니메이션을 수행하기 위해 setTimeout() 또는 setInterval()을 사용합니다. 하지만 이와 같은 함수들은 주어진 시간내에 동작을 할 뿐 위에서 언급한 프레임을 전혀 고려하지 않습니다.</p><figure id="a86d9213-65de-4ab7-9e9c-7f11a954710e" class="image"><a href="https://fullest-sway.me/blog/2019/01/28/requestAnimationFrame/settimeout.jpeg"><img src="https://fullest-sway.me/blog/2019/01/28/requestAnimationFrame/settimeout.jpeg"/></a></figure><p id="0d94b3b7-818b-4988-a401-1f10cf16e39c" class=""><em>출처 : </em><a href="https://developers.google.com/web/fundamentals/performance/rendering/optimize-javascript-execution?hl=ko"><em>https://developers.google.com/web/fundamentals/performance/rendering/optimize-javascript-execution?hl=ko</em></a></p><p id="61d37616-f586-4995-a6e0-32a9b5504b1d" class="">그래서 종종 프레임이 누락되고 사용자게 버벅거리는 인터렉션을 제공할 수 있습니다.</p><h2 id="b2177a3b-75ff-4b49-86e8-95cc6cd2bc5d" class=""><strong>requestAnimationFrame()</strong></h2><p id="afdf881a-a2d5-4c24-af26-df48d1049433" class="">화면에서 변화가 발생할 때 개발자는 브라우저에서 정확한 시간(프레임 시작 시)에 작업을 수행해야 매끄러운 움직임을 수행할 수 있습니다.</p><p id="80d07e6b-c089-41a7-b1b1-f79e4c8b8ce8" class="">이 메소드는 실제 화면이 갱신되어 표시되는 주기에 따라 함수를 호출해주기 때문에 자바스크립트가 프레임 시작 시 실행되도록 보장합니다.</p><p id="76ee80a1-9b4f-49b2-94a5-f84a563e0c2f" class="">보통 1초에 60회 정도 실행이 되지만 대부분의 브라우저는 W3C 권장사항에 따라 디스플레이 주사율과 일치하도록 실행됩니다.</p><p id="fe67bb73-7278-45ba-86aa-088a29fbebcd" class="">setTimeout(), setInterval()은 보이지 않은 곳에서도 수행되지만, requestAnimationFrame()는 현재 창에 표시 되지 않으면 애니메이션을 중지하여 배터리 수명과 성능향상에 도움이 됩니다</p><p id="68ef4692-f43b-4711-9f2c-f6115900905b" class="">즉, requestAnimationFrame()을 사용하면 브라우저가 리소스 사용을 더욱 최적화하고 애니메이션을 더욱 부드럽게 만들 수 있습니다.</p></div></article></body></html>
