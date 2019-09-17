@@ -1,5 +1,5 @@
-const clock = document.getElementById("clock");
-const weather = document.getElementById("weather");
+const clock = document.getElementById('clock');
+const weather = document.getElementById('weather');
 
 /**
  * setInterval 함수를 통해 getTIme함수를 1초마다 실행합니다.
@@ -8,7 +8,7 @@ const weather = document.getElementById("weather");
 function init() {
   setInterval(getTime, 1000);
   getWeather();
-  getTodoList
+  getTodoList();
 }
 init();
 
@@ -43,22 +43,28 @@ function setTime(v) {
  * 다시 then함수를 이용해 받은 데이터(json)에서 main.temp (온도)값을 temper변수에 저장하고
  * icon 변수에 json['weather'][0].icon을 저장합니다. (날씨마다 아이콘 값이 변경됨)
  * html 변수에 span태그, img태그, span태그를 저장합니다. img태그에는 icon값이 마지막 span태그에는 온도 값이 들어갑니다.
- * weather.innerHTML에 html변수를 저장합니다. 
+ * weather.innerHTML에 html변수를 저장합니다.
  * weather의 스타일중 폰트사이즈를 30px로 조정합니다.
  */
 function getWeather() {
-  const appid = "본인이 발급받은 api id"
   fetch(
-    'http://api.openweathermap.org/data/2.5/weather?q=Seoul,kr&appid=d0dbed9f11d7097bfd43f5ceacc27023&units=metric'
+      'http://api.openweathermap.org/data/2.5/weather?q=Seoul,kr&appid=d0dbed9f11d7097bfd43f5ceacc27023&units=metric'
   )
-    .then(data => data.json())
-    .then(json => {
-      const temper = json.main.temp;
-      const icon = json["weather"][0].icon;
-      const html = `<span>현재 날씨는<span><br>
+      .then((data) => data.json())
+      .then((json) => {
+        const temper = json.main.temp;
+        const icon = json['weather'][0].icon;
+        const html = `<span>현재 날씨는<span><br>
                       <img src='image/${icon}.svg'><br>
                       <span>서울의 온도는 섭씨 ${temper}도 입니다.<span>`;
-      weather.innerHTML = html;
-      weather.style.fontSize = "30px";
-    });
+        weather.innerHTML = html;
+        weather.style.fontSize = '30px';
+      });
+}
+
+function getTodoList() {
+  const btn = document.querySelector('#addBtn');
+  btn.addEventListener("click", e => {
+    console.log("hi")
+  })
 }
