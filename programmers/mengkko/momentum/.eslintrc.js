@@ -12,7 +12,6 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
-    "require-jsdoc": "off",
     "linebreak-style": 0
   }
 };
