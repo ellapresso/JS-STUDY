@@ -2,63 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Momentum</title>
 </head>
 <body>
     <div id="app">
         <h1 id="clock">00:00</h1>
         <div id="weather"></div>
-
-        <div>
-            <div id="addList">
-                <input type="text" id="addInput" value="">
-                <button id="addBtn">Add</button>
-            </div>
-            <table class="table">
-                <caption id="todoList">To Do List</caption>
-                    <tr><th>No.</th><th>제목</th><th>삭제</th></tr>
-            </table>
-            <table class="table" style="display: none">
-                <tbody>
-                    <tr>
-                        <th>Done</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <form id="todoForm">
+            <input type="text" placeholder="To do List">
+        </form>
+        <table class="table">
+            <caption id="todoList">To Do List</caption>
+                <tr><th>No.</th><th>제목</th><th>삭제</th></tr>
+        </table>
     </div>
-    <script src="index.js"></script>
+    <script type="module" src="./index.js"></script>
     <style>
         body {
             width: 600px;
+            margin: 0 auto;
             text-align: center;
-        }
-        button {
-            width: 50px;
-            height: 100%;
-            border: 0px;
-            background: gray;
-            outline: none;
-            color: #ffffff
         }
         #weather {
             margin-bottom: 30px;
         }
-        #addList {
+        #todoForm {
             height: 40px;
-            width: 400px;
+            width: 50%;
+            margin: 0 auto;
             border: 1px solid #168;
             
         }
-        #addList input{
+        #todoForm input{
+            text-align: center;
             font-size: 14px;
-            width: 325px;
             padding: 10px;
             border: 0px;
             outline: none;
-            float: left;
         }
-        #addList button {
+        #todoForm button {
             width: 50px;
             height: 100%;
             border: 0px;
@@ -84,18 +68,17 @@
             border: 1px solid #ddd;
         }
         .table th:first-child, .table td:first-child {
+            width: 15%;
             border-left: 0;
         }
         .table th:last-child, .table td:last-child {
+            width: 15%;
             border-right: 0;
         }
         .table tr td:first-child{
             text-align: center;
         }
         .table caption{caption-side: bottom; display: none;}
-        #addList {
-            margin: auto;
-        }
     </style>
 </body>
 </html>
