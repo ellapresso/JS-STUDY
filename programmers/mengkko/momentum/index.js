@@ -1,5 +1,10 @@
 const clock = document.getElementById('clock');
 const weather = document.getElementById('weather');
+const btn = document.querySelector('#addBtn');
+const input = document.querySelector('#addInput');
+const mainTable = document.querySelectorAll('.table')[0]
+const doneTable = document.querySelectorAll('.table')[1]
+let count = 0;
 
 /**
  * setInterval 함수를 통해 getTIme함수를 1초마다 실행합니다.
@@ -63,8 +68,71 @@ function getWeather() {
 }
 
 function getTodoList() {
-  const btn = document.querySelector('#addBtn');
-  btn.addEventListener("click", e => {
-    console.log("hi")
+  input.addEventListener("keyup", e => {
+    if (e.keyCode === 13) {
+      addList()
+    }
   })
+  btn.addEventListener("click", addList)
+}
+
+function addList(doneTitle) {
+  let title = ''
+  if(input.value) {
+    title = input.value
+    input.value = ""
+  }else if (doneTitle) {
+    title = doneTitle
+  }
+  if(title) {
+    count++
+    mainTable.innerHTML += `<tbody class="list"><tr ondblclick="dbClick(${count})"><td>${count}</td><td>${title}</td><td><button class="delete">삭제</button></td></tr></tbody>`
+    for(let i of document.querySelectorAll('.delete')) {
+      i.addEventListener('click', e => {
+        e.path[3].remove()
+        this.removeEventListener("click",arguments.callee);
+        if(mainTable.children.length < 3) count = 0;
+    })
+  }
+  }
+  
+}
+
+function dbClick(c) {
+  const list = document.querySelectorAll('.list')
+  let cnt = 0
+  done(list[c-1].children[0].children[1].innerText)
+  list[c-1].innerHTML = ''
+  for(let i of list) {
+    if(i.innerHTML !== '') {
+      cnt++
+      break;
+    } else {
+      cnt = 0
+    }
+  }
+  if(cnt === 0) {
+    list.forEach(v => {
+      v.remove()
+    })
+    count = 0;
+  }
+}
+
+function done(title) {
+  if(doneTable.style.display === 'none') {
+    doneTable.style.display = ''
+  }
+  doneTable.innerHTML += `<td class="doneList">${title}</td>`
+  
+  const list = document.querySelectorAll('.doneList')
+
+  for(let i of list) {
+    i.addEventListener('dblclick', e => {
+      addList(e.target.innerText)
+      e.path[2].remove()
+      this.removeEventListener("dblclick",arguments.callee);
+      if(doneTable.children.length < 2) doneTable.style.display = 'none'
+    })
+  }
 }
