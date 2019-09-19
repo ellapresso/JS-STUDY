@@ -21,5 +21,6 @@ module.exports = {
       "error",
       4
   ],
+    'require-jsdoc' : 0,
   },
 };
