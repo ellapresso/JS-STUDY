@@ -16,6 +16,7 @@ module.exports = {
     'sourceType': 'module',
   },
   'rules': {
+    'linebreak-style': 0,
     "indent": [
       "error",
       4

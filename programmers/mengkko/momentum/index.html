@@ -28,6 +28,14 @@
         #weather {
             margin-bottom: 30px;
         }
+        tr.strikeout td:before {
+            content: " ";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            border-bottom: 1px solid #111;
+            width: 100%;
+        }
         #todoForm {
             height: 40px;
             width: 50%;
@@ -57,6 +65,10 @@
             border-top: 3px solid #168;
             width: 100%;
             margin-bottom: 30px
+        }
+        .table td {
+            position: relative;
+            padding: 5px 10px;
         }  
         .table th {
             color: #168;
