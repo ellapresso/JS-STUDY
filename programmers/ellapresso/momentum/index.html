@@ -8,12 +8,20 @@
         <title> 모 멘 텀 </title>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="style.css" />
     </head>
 
     <body>
-        <div id='clock' style='color:aliceblue;font-size: 30px;text-align: center;background-color: black;'></div>
+        <div id='clock'></div>
+        <div class='container' id='toDoBox'>
+            <div class="input-field">
+                <form>
+                    <input id='input' type='text' placeholder='WRITE TO DO'>
+                </form>
+            </div>
+            <div id='listBox'></div>
+        </div>
     </body>
-    <script src="background.js"></script>
-    <script src="time.js"></script>
+    <script src="index.js"></script>
 
 </html>
