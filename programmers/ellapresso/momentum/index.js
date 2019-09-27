@@ -1,6 +1,6 @@
 const clock = document.querySelector('#clock');
 const KEY = '7817175-59009f7cca8be8133837e7e46';
-const APIKEY = 'https://pixabay.com/api/?key=' + KEY + '&q=blue+black+cats&image_type=photo';
+const APIKEY = 'https://pixabay.com/api/?key=' + KEY + '&q=blue+gray+cats&image_type=photo';
 const body = document.querySelector('body');
 const input = document.querySelector('#input');
 const form = document.querySelector('form');
@@ -14,7 +14,6 @@ function setTimer() {
 }
 
 function oneToTwenty(){
-    console.log(number)
     number++
     if(number===20){
         number=0
@@ -30,7 +29,6 @@ function getImages() {
         .then(function (json) {
             body.style.backgroundImage = `url(${json.hits[number].largeImageURL})`;
             body.style.backgroundSize = 'cover';
-            console.log(json)
         }).catch((err) => {
             body.style.background = 'black'
             console.log(err)
@@ -56,36 +54,38 @@ function saveLocal(e) {
 }
 
 function setLocal(toDos) {
-    localStorage.setItem('toDo', JSON.stringify(toDos));
+    const final = toDos.filter(x=>x!==undefined)
+    localStorage.setItem('toDo', JSON.stringify(final));
 }
 
 function showList() {
     const history = localStorage.getItem('toDo');
     JSON.parse(history).forEach((e,i) => {
-        appendTxt(e,i)
-        toDos.push(e)
+            appendTxt(e,i)
+            toDos.push(e)
     });
 }
 
 function appendTxt(txt,idx) {
-    const li = document.createElement("li");
+    const div = document.createElement("div");
     const span = document.createElement("span");
-    listBox.appendChild(li)
-    li.id='num'+idx
-    li.ondblclick =  () => {done(idx)}
-    // li.onclick = () =>{del(idx)}
-    li.appendChild(span);
-    span.innerText = txt;
+    listBox.appendChild(div)
+    div.id='num'+idx
+    div.ondblclick = () => {done(idx)}
+    div.appendChild(span);
+    span.innerHTML = `<span>${txt}</span> <span id='del`+idx+`'>↩︎</span>`;
+    div.querySelector('#del'+idx).onclick= () =>{del(idx)}
 }
 
 function done(idx) {
     const txt = listBox.querySelector('#num'+idx).querySelector('span')
     txt.style.textDecoration = (txt.style.textDecoration === 'line-through')?'':'line-through'
-
 }
 
 function del(idx){
-    console.log(idx)
+    delete toDos[idx]
+    setLocal(toDos)
+    listBox.removeChild(listBox.querySelector('#num'+idx))
 }
 
 function init() {
