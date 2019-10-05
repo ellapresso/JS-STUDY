@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Momentum</title>
 </head>
 <body>
@@ -16,6 +14,23 @@
         <table class="table">
             <caption id="todoList">To Do List</caption>
                 <tr><th>No.</th><th>제목</th><th>삭제</th></tr>
+        </table>
+        <table id="calendar" class="table">
+            <tr><!-- label은 마우스로 클릭을 편하게 해줌 -->
+                <th><</th>
+                <th id="calendarYM" colspan="5">
+                yyyy년 m월</th>
+                <th>></th>
+            </tr>
+            <tr>
+                <td align="center"><font color ="red">일</td>
+                <td align="center">월</td>
+                <td align="center">화</td>
+                <td align="center">수</td>
+                <td align="center">목</td>
+                <td align="center">금</td>
+                <td align="center"><font color ="blue">토</td>
+            </tr> 
         </table>
     </div>
     <script type="module" src="./index.js"></script>
@@ -60,6 +75,7 @@
         .table {
             margin-top: 15px;
             border-collapse: collapse;
+            border: 1px solid #ddd;
             border-top: 3px solid #168;
             width: 100%;
             margin-bottom: 30px
@@ -84,6 +100,7 @@
         .table th:last-child, .table td:last-child {
             width: 15%;
             border-right: 0;
+            border: 1px solid #ddd;
         }
         .table tr td:first-child{
             text-align: center;

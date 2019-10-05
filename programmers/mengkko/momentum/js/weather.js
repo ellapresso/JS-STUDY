@@ -9,7 +9,7 @@ function getWeather() {
             const temper = json.main.temp;
             const icon = json['weather'][0].icon;
             const html = `<span>현재 날씨는<span><br>
-                        <img src='image/${icon}.svg'><br>
+                        <img src='/image/${icon}.svg'><br>
                         <span>서울의 온도는 섭씨 ${temper}도 입니다.<span>`;
             weather.innerHTML = html;
             weather.style.fontSize = '30px';

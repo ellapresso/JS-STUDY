@@ -24,4 +24,4 @@ function setTime(v) {
 
 export default {
     init,
-};
+}
