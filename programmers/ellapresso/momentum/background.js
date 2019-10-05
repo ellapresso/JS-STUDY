@@ -1,5 +1,5 @@
 const KEY = '7817175-59009f7cca8be8133837e7e46';
-const APIKEY = 'https://pixabay.com/api/?key=' + KEY + '&q=yellow+white+cats&image_type=photo';
+const APIKEY = 'https://pixabay.com/api/?key=' + KEY + '&q=yellow+white+cat&image_type=photo';
 const body = document.querySelector('body');
 let number = 0;
 

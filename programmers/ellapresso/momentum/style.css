@@ -9,6 +9,16 @@
     /* background-color: black; */
 }
 
-#listBox{
-    color:white
+#listBox {
+    color: white
+}
+
+#calendar {
+    background-color: antiquewhite;
+    opacity: 0.7;
+}
+
+#monthTitle span {
+    font-size: 28px;
+    font-weight: bold;
 }

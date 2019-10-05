@@ -13,7 +13,6 @@
 
     <body>
         <div id='clock'></div>
-        <div id='calendar'></div>
         <div class='container row' id='toDoBox'>
             <div class="input-field">
                 <form>
@@ -23,6 +22,24 @@
             <div class='col m10'>
                 <div id='listBox' class='card-panel blue-grey darken-4'></div>
             </div>
+        </div>
+        <div id='calendar'>
+            <table>
+                <thead>
+                    <div class='container center-align' id='monthTitle'></div>
+                    <tr>
+                        <th>MON</th>
+                        <th>TUE</th>
+                        <th>WEDS</th>
+                        <th>THU</th>
+                        <th>FRI</th>
+                        <th>SAT</th>
+                        <th>SUN</th>
+                    </tr>
+                </thead>
+                <tbody id='monthDays' class='highlight responsive-table'>
+                </tbody>
+            </table>
         </div>
     </body>
     <script src="todo.js"></script>
