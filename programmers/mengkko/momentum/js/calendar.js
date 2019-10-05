@@ -48,11 +48,11 @@ function buildCalendar(today) {
         td = tr.insertCell();
         td.innerHTML = i;
         cnt = cnt + 1;
-        if (cnt % 7 == 1) {
+        if (cnt % 7 === 1) {
             td.style.color = 'red';
             td.innerHTML = i;
         }
-        if (cnt%7 == 0) {
+        if (cnt%7 === 0) {
             td.style.color = 'blue';
             td.innerHTML = i;
             tr = calendar.insertRow();
