@@ -23,28 +23,35 @@
                 <div id='listBox' class='card-panel blue-grey darken-4'></div>
             </div>
         </div>
-        <div id='calendar'>
-            <table>
+        <div id='calendar' class='container'>
+            <table class='centered'>
                 <thead>
                     <div class='container center-align' id='monthTitle'></div>
                     <tr>
                         <th>MON</th>
                         <th>TUE</th>
-                        <th>WEDS</th>
+                        <th>WED</th>
                         <th>THU</th>
                         <th>FRI</th>
                         <th>SAT</th>
                         <th>SUN</th>
                     </tr>
                 </thead>
-                <tbody id='monthDays' class='highlight responsive-table'>
+                <tbody id='monthDays' class='highlight'>
                 </tbody>
             </table>
+        </div>
+        <div class='modal card'>
+            <div class='card-content'>
+                <p class='modalDate'></p>
+                <span class='modalTxt'></span>
+            </div>
         </div>
     </body>
     <script src="todo.js"></script>
     <script src="background.js"></script>
     <script src="clock.js"></script>
     <script src="calendar.js"></script>
+    <script src="event.js"></script>
 
 </html>

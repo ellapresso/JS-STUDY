@@ -6,6 +6,7 @@
 }
 
 #toDoBox {
+    opacity: 0.8;
     /* background-color: black; */
 }
 
@@ -14,11 +15,24 @@
 }
 
 #calendar {
+    padding: 15px;
+    width: 85%;
     background-color: antiquewhite;
     opacity: 0.7;
+    margin-bottom: 20px;
 }
 
 #monthTitle span {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
+    line-height: 2;
+}
+
+.modal {
+    width: 60%;
+    opacity: 0.9;
+}
+
+.notThisMonth {
+    opacity: 0.45;
 }
