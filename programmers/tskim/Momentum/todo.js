@@ -6,6 +6,16 @@ const TODOS_LS = "toDos";
 
 let toDos = [];
 
+function checkedToDo(event){
+    const btn = event.target;
+    const li = btn.parentNode;
+    if(li.tagName == 'LI'){
+        li.classList.toggle('clickedToDo')
+    }
+
+    console.log(event);
+}
+
 function deleteToDo(event) {
     const btn = event.target;
     const li = btn.parentNode;
@@ -30,6 +40,7 @@ function paintTodo(text) {
     delBtn.innerText = "x";
     delBtn.addEventListener("click", deleteToDo);
     span.innerText = text;
+    li.addEventListener("click", checkedToDo);
     li.appendChild(span);
     li.appendChild(delBtn);
     li.id = newId;

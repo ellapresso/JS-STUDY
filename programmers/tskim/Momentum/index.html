@@ -4,26 +4,62 @@
 <head>
     <title>Something</title>
     <meta charset="utf-8" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <link rel="stylesheet" href="index.css" />
 </head>
 
 <body>
-    <div class="js-clock">
-        <h1>00:00</h1>
+    <div class="top-row">
+        <div class="top-right">
+            <div class="ctemp">현재 온도: </div>
+            <div class="clowtemp">최저 온도: </div>
+            <div class="chightemp">최고 온도: </div>
+            <div class="cicon">아이콘 : </div>
+        </div>
     </div>
-    <form class="js-form form">
-        <input type="text" placeholder="What is your name?" />
-    </form>
-    <h4 class="js-greetings greetings"></h4>
-    <form class="js-toDoForm">
-        <input type="text" placeholder="Write a to do" />
-    </form>
-    <ul class="js-toDoList">
-    </ul>
+    <div class="center">
+        <div class="js-clock">
+            <h1>00:00</h1>
+        </div>       
+        <form class="js-form form">
+            <input type="text" placeholder="What is your name?" />
+        </form>     
+        <h4 class="js-greetings greetings"></h4>
+        <form class="js-toDoForm">
+            <input type="text" placeholder="Write a to do" />
+        </form>
+        <ul class="js-toDoList">
+        </ul>
+    </div>
+    <div class="center-two">
+        <div class="js-calendar">
+            <div class="cal-head">
+                <span class="cal-month"></span>
+                <span class="cal-year"></span>
+            </div>
+            <table class="cal-table">
+                <thead>
+                    <tr>
+                      <th>S</th>
+                      <th>M</th>
+                      <th>T</th>
+                      <th>W</th>
+                      <th>T</th>
+                      <th>F</th>
+                      <th>S</th>
+                    </tr>
+                  </thead>
+                  <tbody class="cal-body"></tbody>
+            </table>
+        </div>
+    </div>
+
     <script src="clock.js"></script>
     <script src="gretting.js"></script>
     <script src="todo.js"></script>
     <script src="bg.js"></script>
+    <script src="weather.js"></script>
+    <script src="calendar.js"></script>
 </body>
 
 </html>
