@@ -3,109 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Momentum</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div id="app">
         <h1 id="clock">00:00</h1>
         <div id="weather"></div>
-        <form id="todoForm">
-            <input type="text" placeholder="To do List">
-        </form>
-        <table class="table">
-            <caption id="todoList">To Do List</caption>
-                <tr><th>No.</th><th>제목</th><th>삭제</th></tr>
-        </table>
-        <table id="calendar" class="table">
-            <tr><!-- label은 마우스로 클릭을 편하게 해줌 -->
-                <th><</th>
-                <th id="calendarYM" colspan="5">
-                yyyy년 m월</th>
-                <th>></th>
-            </tr>
-            <tr>
-                <td align="center"><font color ="red">일</td>
-                <td align="center">월</td>
-                <td align="center">화</td>
-                <td align="center">수</td>
-                <td align="center">목</td>
-                <td align="center">금</td>
-                <td align="center"><font color ="blue">토</td>
-            </tr> 
-        </table>
+        <ul id="tabs" class="tabs">
+            <li>Todo</li>
+            <li>Calendar</li>
+        </ul>
+        <div id="todo">
+            <form id="todoForm">
+                <input type="text" placeholder="To do List">
+            </form>
+            <table id="todoTable" class="table"></table>
+        </div>
+        
+        <div id="calendar">
+            <!-- <a class="term">주간</a>
+            <a class="term">월간</a> -->
+            <table id="calendarMonth" class="table">
+                <tr>
+                    <th><</th>
+                    <th id="calendarYM" colspan="5">yyyy년 m월</th>
+                    <th>></th>
+                </tr>
+                <tr align="left">
+                    <td style="text-align: left;"><font color ="red">일</td>
+                    <td>월</td>
+                    <td>화</td>
+                    <td>수</td>
+                    <td>목</td>
+                    <td>금</td>
+                    <td><font color ="blue">토</td>
+                </tr> 
+            </table>
+            <table id="calendarWeek" class="table" style="display: none;">
+                <tr>
+                    <th><</th>
+                    <th id="calendarWeekYM" colspan="5">
+                    yyyy년 m월</th>
+                    <th>></th>
+                </tr>
+                <tr>
+                    <td align="center"><font color ="red">일</td>
+                    <td align="center">월</td>
+                    <td align="center">화</td>
+                    <td align="center">수</td>
+                    <td align="center">목</td>
+                    <td align="center">금</td>
+                    <td align="center"><font color ="blue">토</td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal hidden">
+            <div class="modal__overlay"></div>
+            <div class="modal__content">
+                <h1>hi i'm modal</h1>
+            </div>
+        </div>
     </div>
-    <script type="module" src="./index.js"></script>
-    <style>
-        body {
-            width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        #weather {
-            margin-bottom: 30px;
-        }
-        tr.strikeout td:before {
-            content: " ";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            border-bottom: 1px solid #168;
-            width: 100%;
-        }
-        #todoForm {
-            height: 40px;
-            width: 50%;
-            margin: 0 auto;
-            border: 1px solid #168;
-            
-        }
-        #todoForm input{
-            text-align: center;
-            font-size: 14px;
-            padding: 10px;
-            border: 0px;
-            outline: none;
-        }
-        .table td button {
-            font-size: 14px;
-            height: 100%;
-            border: 0px;
-            background: #ffffff;
-            outline: none;
-        }
-        .table {
-            margin-top: 15px;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-            border-top: 3px solid #168;
-            width: 100%;
-            margin-bottom: 30px
-        }
-        .table td {
-            position: relative;
-            padding: 5px 10px;
-        }  
-        .table th {
-            color: #168;
-            background: #f0f6f9;
-            text-align: center;
-        }
-        .table th, .table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        .table th:first-child, .table td:first-child {
-            width: 15%;
-            border-left: 0;
-        }
-        .table th:last-child, .table td:last-child {
-            width: 15%;
-            border-right: 0;
-            border: 1px solid #ddd;
-        }
-        .table tr td:first-child{
-            text-align: center;
-        }
-        .table caption{caption-side: bottom; display: none;}
-    </style>
+    <script type="module" src="./js/app.js"></script>
 </body>
 </html>
