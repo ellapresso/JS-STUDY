@@ -16,7 +16,6 @@ function drawDays() {
     const lastDate = new Date(date.getFullYear(), nowMonth, 0)
     const beforeLastDate = new Date(date.getFullYear(), brforeMonth, 0)
     const bld = beforeLastDate.getDate()
-    console.log(bld)
 
     let tr = document.createElement('tr');
     monthDays.appendChild(tr);
@@ -37,7 +36,6 @@ function drawDays() {
         tr.innerHTML += `<th class='notThisMonth'>${i+1}</th>`
     }
 }
-
 
 calendarTitle();
 drawDays();
