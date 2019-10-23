@@ -46,6 +46,7 @@ function done(idx) {
 }
 
 function del(idx) {
+//TODO: 삭제 확인 모달 작성
     delete toDos[idx]
     setLocal(toDos)
     listBox.removeChild(listBox.querySelector('#num' + idx))
