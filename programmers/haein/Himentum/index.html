@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- META -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,400,700,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700,900&display=swap" rel="stylesheet">
+  <!-- STYLE -->
+  <link href="./style/reset.css" rel="stylesheet" type="text/css"/>
+  <link href="./style/style.css" rel="stylesheet" type="text/css"/>
+  <title>Himentum</title>
+</head>
+<body>
+  <div class="backgrund">
+    <span class="calendarBtn"><a href="./calendar.html">달력</a></span>
+    <span class="weatherContainer">
+      <p class="temp"></p>
+      <div>
+          <span class="weatherIcon"></span>
+          <span class="weatherType"></span>
+      </div>
+    </span>
+    <p class="notice">위치정보를 가져오는 중입니다....</p>
+    <div class="dateContainer">
+      <div class="date"></div>
+      <div class="time"></div>
+    </div>
+    <span class="hello">
+        <input type="text" class="nameInput" placeholder="WHAT'S YOUR NAME?"/>
+    </span>
+    <div class="todoListContainer">
+      <input type="text" class="todoInput" placeholder="ADD NEW TODO"/>
+      <ul class="todoList">
+      </ul>
+    </div>
+    <span class="location"></span>
+    <span class="copyright"></span>
+  </div>
+  <!-- SCRIPT -->
+  <script src="./js/config.js" type="text/javascript"></script>
+  <script src="./js/index.js" type="text/javascript"></script>
+</body>
+</html>
