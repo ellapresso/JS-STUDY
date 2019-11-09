@@ -29,10 +29,17 @@
 }
 
 .modal {
-    width: 60%;
-    opacity: 0.9;
+    width: 600px;
+    z-index: 1;
 }
 
 .notThisMonth {
     opacity: 0.45;
+}
+
+.closeBtn {
+    float: right;
+    margin-right:20px;
+    margin-top:10px;
+    cursor: pointer;
 }

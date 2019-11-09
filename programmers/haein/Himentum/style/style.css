@@ -1,0 +1,189 @@
+body {
+  display: flex;
+  width:100%;
+  height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color:#ffffff
+}
+a:link { 
+  color:#ffffff;
+  text-decoration: none;
+}
+a:visited { 
+  color:#ffffff;
+  text-decoration: none;
+}
+a:hover {
+  color:#ffffff;
+  text-decoration: underline;
+}
+:focus {
+  outline: none;
+}
+::placeholder {
+  color:#ffffff;
+}
+.display {
+  display: block !important;
+}
+.backgrund {
+  display: flex;
+  flex:1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #5d5d5d;
+  background-size: cover;
+}
+
+.calendarBtn {
+  position: fixed;
+  top:20px;
+  left:20px;
+}
+
+/* .backgrund::after {
+  content: '';
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+} */
+
+.weatherContainer {
+  position: fixed;
+  top:20px;
+  right:20px;
+}
+.weatherContainer .temp {
+  padding-right: 5px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 500;
+}
+.weatherContainer .temp span {
+  float: right;
+  font-size: 12px;
+  padding-top: 4px;
+  margin-left: -14px;
+}
+.weatherContainer > div {
+  overflow: hidden;
+  padding: 3px 10px;
+  margin-top:5px;
+  border: 1px solid #ffffff;
+}
+.weatherContainer > div > * {
+  float: left;
+}
+.weatherContainer .weatherIcon {
+  clear: both;
+  width:15px;
+  margin: 0 auto;
+}
+.weatherContainer .weatherIcon img{
+  width:100%;
+  margin-top: 2px;
+}
+.weatherContainer .weatherType {
+  margin-left:5px;
+  line-height: 20px;
+}
+  
+.notice {
+  display: none;
+  position: fixed;
+  top:50px;
+  left:0%;
+  width: 100%;
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  font-style: oblique
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.dateContainer .date{
+  letter-spacing: 5px;
+  font-size: 30px;
+  font-weight: 700;
+}
+.dateContainer .time{
+  margin:10px 0;
+  font-weight: 500;
+  font-size: 120px;
+  color:#ffffff;
+}
+.todoListContainer {
+  margin:20px;
+  width: 300px;
+}
+.nameInput, .todoInput {
+  width: calc(100% - 20px);
+  height:30px;
+  padding: 10px;
+  text-align: center;
+  background-color: transparent;
+  border:none;
+  border-bottom: 2px solid #ffffff;
+  font-size: 16px;
+  color:#ffffff
+}
+.todoListContainer .todoInput {
+  display:none;
+  text-align: left;
+}
+.todoListContainer .todoList {
+  overflow: auto;
+  max-height: 130px;
+  margin: 10px;
+}
+.todoListContainer .todoList > li {
+  display: flex;
+  padding: 5px 0;
+  font-size: 16px;
+}
+.todoListContainer .todoList > li > span {
+  width: 240px;
+  display: inline-block;
+  line-height: 23px;
+}
+
+.todoListContainer .todoList > li .deleteBtn {
+  align-self: center;
+  width: 40px;
+  margin-left:20px;
+  background-color: #ffffff;
+  border:none;
+  border-radius: 3px;
+} 
+.hello {
+  width: 300px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin:10px 0;
+}
+.location {
+  position: fixed;
+  bottom:10px;
+  left:20px;
+  font-size: 12px;
+  font-style: oblique
+}
+.copyright {
+  position: fixed;
+  bottom:10px;
+  right:20px;
+  font-size: 12px;
+}

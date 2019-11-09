@@ -1,0 +1,139 @@
+body {
+  display: flex;
+  width: 100%;
+  padding: 20px 0;
+  min-height: calc(100vh - 40px);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: #000000;
+}
+a:link {
+  color: #000000;
+  text-decoration: none;
+}
+a:visited {
+  color: #000000;
+  text-decoration: none;
+}
+a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+:focus {
+  outline: none;
+}
+::placeholder {
+  color: #000000;
+}
+.display {
+  display: block !important;
+}
+
+.calendarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendarHeader > span {
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 10px;
+}
+
+.currentMonth {
+  margin: 20px 0;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.btnContainer {
+  margin: 20px;
+}
+.btnContainer span {
+  margin: 0 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btnContainer .on {
+  color: red;
+}
+
+.calendar {
+  margin-bottom: 20px;
+}
+.calendar .red {
+  color: red;
+}
+.calendar .blue {
+  color: blue;
+}
+.calendar thead {
+  font-weight: 700;
+  color: black;
+}
+
+.calendar thead tr {
+  height: 50px;
+  background: #eeeeee;
+}
+
+.calendar thead tr th,
+.monthCalendar tbody tr td {
+  width: 100px;
+}
+
+.calendar thead tr th {
+  vertical-align: middle;
+  font-size: 20px;
+  border: 1px solid black;
+}
+
+.calendar tbody tr td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.calendar tbody tr td:first-child {
+  color: red;
+}
+
+.calendar tbody tr td:last-child {
+  color: blue;
+}
+
+td.today {
+  background: yellow;
+}
+td.blur {
+  opacity: 0.3;
+}
+
+.monthCalendar {
+  display: none;
+}
+.monthCalendar tbody tr td ul {
+  min-height: 60px;
+}
+
+.weekCalendar {
+  display: none;
+}
+.weekCalendar tbody tr td ul {
+  height: 400px;
+}
+
+.dayCalendar {
+  display: none;
+}
